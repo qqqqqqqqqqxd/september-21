@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>September-21</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-theme: linear-gradient(135deg, #12021c 0%, #290832 50%, #150221 100%);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 182, 193, 0.22);
+      --pink-accent: #ff4d79;
+      --pink-glow: #ff7597;
+      --gold-accent: #f7d070;
+      --text-light: #fff0f5;
+      --text-sub: #e0b8d3;
+      --shadow-soft: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-theme);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+      color: var(--text-light);
+      position: relative;
+    }
+
+    .sparkles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffb6c1, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #ffd700, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 80px 120px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 150px 200px, #ff4d79, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 250px 250px;
+      animation: floatSparkles 12s linear infinite;
+      opacity: 0.5;
+    }
+
+    @keyframes floatSparkles {
+      from { transform: translateY(0); }
+      to { transform: translateY(-250px); }
+    }
+
+    .garden-container {
+      position: fixed;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 260px;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: flex-end;
+      z-index: 2;
+    }
+
+    .plant {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: bottom center;
+      animation: growPlant 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, gentleSway 4s ease-in-out infinite 2.3s;
+    }
+
+    @keyframes growPlant {
+      0% { transform: scaleY(0); opacity: 0; }
+      100% { transform: scaleY(1); opacity: 1; }
+    }
+
+    @keyframes gentleSway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    .stem {
+      width: 5px;
+      background: linear-gradient(to top, #2d5a27, #4a8542);
+      border-radius: 3px;
+    }
+
+    .leaf {
+      position: absolute;
+      background: linear-gradient(135deg, #386930, #529349);
+      border-radius: 0 100% 0 100%;
+    }
+
+    .tulip-stem { height: 140px; }
+    .tulip-leaf-left { width: 20px; height: 50px; bottom: 30px; left: -15px; transform: rotate(-25deg); }
+    .tulip-leaf-right { width: 20px; height: 50px; bottom: 45px; right: -15px; transform: scaleX(-1) rotate(-25deg); }
+    .tulip-flower {
+      width: 42px;
+      height: 52px;
+      position: relative;
+      margin-bottom: -5px;
+      animation: bloomTulip 1.8s ease-out 1.2s forwards;
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    .tulip-petal {
+      position: absolute;
+      width: 26px;
+      height: 48px;
+      background: linear-gradient(135deg, #ff2a6d, #b5179e);
+      border-radius: 50% 50% 30% 30%;
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.4), 0 0 12px rgba(255, 42, 109, 0.6);
+    }
+    .tulip-petal.p1 { left: 0; transform: rotate(-12deg); }
+    .tulip-petal.p2 { right: 0; transform: rotate(12deg); }
+    .tulip-petal.p3 { left: 8px; top: 2px; background: linear-gradient(135deg, #ff5288, #d81159); width: 26px; z-index: 2; }
+
+    @keyframes bloomTulip {
+      0% { transform: scale(0.3); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .lily-stem { height: 160px; }
+    .lily-flower {
+      width: 60px;
+      height: 60px;
+      position: relative;
+      margin-bottom: -10px;
+      animation: bloomLily 2s ease-out 1.4s forwards;
+      transform: scale(0.2) rotate(0deg);
+      opacity: 0;
+    }
+    .lily-petal {
+      position: absolute;
+      width: 18px;
+      height: 45px;
+      left: 21px;
+      top: 7px;
+      background: linear-gradient(to top, #ffe6f0, #ffffff);
+      border-radius: 50% 50% 10% 10%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      transform-origin: bottom center;
+    }
+    .lily-petal:nth-child(1) { transform: rotate(0deg); }
+    .lily-petal:nth-child(2) { transform: rotate(60deg); }
+    .lily-petal:nth-child(3) { transform: rotate(120deg); }
+    .lily-petal:nth-child(4) { transform: rotate(180deg); }
+    .lily-petal:nth-child(5) { transform: rotate(240deg); }
+    .lily-petal:nth-child(6) { transform: rotate(300deg); }
+    
+    .lily-center {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #f7d070;
+      border-radius: 50%;
+      top: 24px;
+      left: 24px;
+      box-shadow: 0 0 8px #f7d070;
+      z-index: 3;
+    }
+
+    @keyframes bloomLily {
+      0% { transform: scale(0.2) rotate(-30deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .astro-stem { height: 130px; }
+    .astro-flower {
+      width: 50px;
+      height: 50px;
+      position: relative;
+      margin-bottom: -5px;
+      animation: bloomAstro 1.8s ease-out 1.6s forwards;
+      transform: scale(0.2);
+      opacity: 0;
+    }
+    .astro-petal {
+      position: absolute;
+      width: 20px;
+      height: 35px;
+      left: 15px;
+      top: 7px;
+      background: linear-gradient(135deg, #ff7597 0%, #f7d070 100%);
+      border-radius: 40% 60% 30% 70%;
+      transform-origin: bottom center;
+      box-shadow: 0 0 8px rgba(255, 117, 151, 0.5);
+    }
+    .astro-petal::after {
+      content: '• •';
+      font-size: 8px;
+      color: #7209b7;
+      position: absolute;
+      top: 8px;
+      left: 4px;
+    }
+    .astro-petal:nth-child(1) { transform: rotate(0deg) skewX(5deg); }
+    .astro-petal:nth-child(2) { transform: rotate(72deg) skewX(5deg); }
+    .astro-petal:nth-child(3) { transform: rotate(144deg) skewX(5deg); }
+    .astro-petal:nth-child(4) { transform: rotate(216deg) skewX(5deg); }
+    .astro-petal:nth-child(5) { transform: rotate(288deg) skewX(5deg); }
+
+    @keyframes bloomAstro {
+      0% { transform: scale(0.2); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 28px;
+      padding: 45px 35px;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+      max-width: 460px;
+      width: 100%;
+      border: 1px solid var(--glass-border);
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      z-index: 10;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .gif-container img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2rem;
+      color: var(--pink-glow);
+      margin-bottom: 12px;
+      text-shadow: 0 0 15px rgba(255, 117, 151, 0.4);
+    }
+
+    h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: var(--pink-glow);
+      margin-bottom: 15px;
+    }
+
+    p.subtext {
+      font-size: 1rem;
+      color: var(--text-sub);
+      margin-bottom: 30px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--pink-accent), #c9184a);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 6px 20px rgba(255, 77, 121, 0.4);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(255, 77, 121, 0.7);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .triptych-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      width: 100%;
+      z-index: 10;
+      animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .triptych-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 24px;
+      padding: 30px 22px;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+      border: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+
+    .triptych-panel:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 117, 151, 0.5);
+    }
+
+    .calendar-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .calendar-header {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.7rem;
+      color: var(--gold-accent);
+      margin-bottom: 12px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    .day-name {
+      font-weight: 600;
+      color: var(--pink-glow);
+      opacity: 0.85;
+    }
+
+    .day {
+      padding: 7px 0;
+      border-radius: 8px;
+      color: var(--text-light);
+    }
+
+    .day.highlight {
+      background: linear-gradient(135deg, var(--pink-accent), #c9184a);
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(255, 77, 121, 0.8);
+      animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 12px rgba(255, 77, 121, 0.6); }
+      50% { box-shadow: 0 0 22px rgba(255, 77, 121, 1); }
+    }
+
+    .quote-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    .bugcat-triste, .bugcat-start {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.85));
+    }
+
+    .moon-wrapper {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .moon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.85));
+    }
+
+    .letter-icon-img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 15px rgba(255, 117, 151, 0.6));
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 2, 15, 0.8);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 20px;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .modal-card {
+      background: rgba(28, 7, 36, 0.95);
+      border-radius: 26px;
+      padding: 45px 35px;
+      max-width: 580px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid var(--pink-glow);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      text-align: center;
+    }
+
+    .letter-title {
+      font-family: 'Alex Brush', cursive;
+      font-size: 3.8rem;
+      color: var(--gold-accent);
+      margin-bottom: 25px;
+    }
+
+    .letter-body {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--text-light);
+      text-align: justify;
+      margin-bottom: 30px;
+      white-space: pre-line;
+      font-weight: 300;
+    }
+
+    .music-widget-wrapper {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 99;
+      max-width: 320px;
+    }
+
+    .lyrics-ticker {
+      background: rgba(18, 2, 28, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 8px 12px;
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.15rem;
+      color: var(--gold-accent);
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .lyrics-ticker.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .music-player {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .music-cover {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      animation: rotateCover 8s linear infinite;
+      animation-play-state: paused;
+      border: 2px solid var(--pink-glow);
+    }
+
+    .music-player.playing .music-cover {
+      animation-play-state: running;
+    }
+
+    @keyframes rotateCover {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .music-info {
+      display: flex;
+      flex-direction: column;
+      max-width: 120px;
+    }
+
+    .music-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-artist {
+      font-size: 0.68rem;
+      color: var(--text-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .music-btn {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      cursor: pointer;
+      padding: 4px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .music-btn:hover {
+      color: var(--pink-glow);
+      transform: scale(1.15);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sparkles"></div>
+
+  <div class="garden-container">
+    <div class="plant" style="animation-delay: 0.1s;">
+      <div class="tulip-flower">
+        <div class="tulip-petal p1"></div>
+        <div class="tulip-petal p2"></div>
+        <div class="tulip-petal p3"></div>
+      </div>
+      <div class="stem tulip-stem">
+        <div class="leaf tulip-leaf-left"></div>
+        <div class="leaf tulip-leaf-right"></div>
+      </div>
+    </div>
+
+    <div class="plant" style="animation-delay: 0.4s;">
+      <div class="lily-flower">
+        <div class="lily-petal"></div>
+        <div class="lily-petal"></div>
+        <div class="lily-petal"></div>
+        <div class="lily-petal"></div>
+        <div class="lily-petal"></div>
+        <div class="lily-petal"></div>
+        <div class="lily-center"></div>
+      </div>
+      <div class="stem lily-stem"></div>
+    </div>
+
+    <div class="plant" style="animation-delay: 0.2s;">
+      <div class="tulip-flower">
+        <div class="tulip-petal p1"></div>
+        <div class="tulip-petal p2"></div>
+        <div class="tulip-petal p3"></div>
+      </div>
+      <div class="stem tulip-stem" style="height: 155px;">
+        <div class="leaf tulip-leaf-left"></div>
+      </div>
+    </div>
+
+    <div class="plant" style="animation-delay: 0.5s;">
+      <div class="astro-flower">
+        <div class="astro-petal"></div>
+        <div class="astro-petal"></div>
+        <div class="astro-petal"></div>
+        <div class="astro-petal"></div>
+        <div class="astro-petal"></div>
+      </div>
+      <div class="stem astro-stem"></div>
+    </div>
+
+    <div class="plant" style="animation-delay: 0.3s;">
+      <div class="tulip-flower">
+        <div class="tulip-petal p1"></div>
+        <div class="tulip-petal p2"></div>
+        <div class="tulip-petal p3"></div>
+      </div>
+      <div class="stem tulip-stem">
+        <div class="leaf tulip-leaf-right"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-start" class="card">
+    <div class="gif-container">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDV5MjdpdTd0N21vZ2JrN29mYmRpdm5ueTEwY3UybWVhZ2FqY2h3YyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/KyEtlYiutRHVC68Ess/giphy.gif" alt="GIF de bienvenida" class="bugcat-start"/>
+    </div>
+    <h1>HOLAAAAAAA ANA!</h1>
+    <p class="subtext">te hice un regalo, quieres verlo?</p>
+    <div class="btn-group">
+      <button class="btn" id="btn-yes">¡Sí!</button>
+      <button class="btn btn-secondary" id="btn-no">No</button>
+    </div>
+  </div>
+
+  <div id="screen-no" class="card hidden">
+    <div class="gif-container">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc21ldjQwYXc2dHhxbXN4dWd6aTNkdWd3cXRhcnc2dmF5ODh3bnIxMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/CuM49YKw7hQdZICrn9/giphy.gif" alt="GIF triste" class="bugcat-triste"/>
+    </div>
+    <h2>Esta bien......... :(</h2>
+    <div class="btn-group">
+      <button class="btn" id="btn-retry">Intentar denuevo</button>
+    </div>
+  </div>
+
+  <div id="screen-triptych" class="triptych-container hidden">
+    
+    <div class="triptych-panel">
+      <div class="calendar-box">
+        <div class="calendar-header">Septiembre 2026</div>
+        <div class="calendar-grid">
+          <div class="day-name">D</div>
+          <div class="day-name">L</div>
+          <div class="day-name">M</div>
+          <div class="day-name">M</div>
+          <div class="day-name">J</div>
+          <div class="day-name">V</div>
+          <div class="day-name">S</div>
+          
+          <div></div><div></div>
+          
+          <div class="day">1</div>
+          <div class="day">2</div>
+          <div class="day">3</div>
+          <div class="day">4</div>
+          <div class="day">5</div>
+          <div class="day">6</div>
+          <div class="day highlight">7</div>
+          <div class="day">8</div>
+          <div class="day">9</div>
+          <div class="day">10</div>
+          <div class="day">11</div>
+          <div class="day">12</div>
+          <div class="day">13</div>
+          <div class="day">14</div>
+          <div class="day">15</div>
+          <div class="day">16</div>
+          <div class="day">17</div>
+          <div class="day">18</div>
+          <div class="day">19</div>
+          <div class="day">20</div>
+          <div class="day">21</div>
+          <div class="day">22</div>
+          <div class="day">23</div>
+          <div class="day">24</div>
+          <div class="day">25</div>
+          <div class="day">26</div>
+          <div class="day">27</div>
+          <div class="day">28</div>
+          <div class="day">29</div>
+          <div class="day">30</div>
+        </div>
+      </div>
+      <p class="quote-text">"Cuando te conocí, mi vida empezó a brillar de una manera mejor."</p>
+    </div>
+
+    <div class="triptych-panel">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23ff7597'/><stop offset='100%' stop-color='%23c9184a'/></linearGradient><linearGradient id='gold' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23ffe082'/><stop offset='100%' stop-color='%23f7d070'/></linearGradient></defs><rect x='15' y='35' width='90' height='60' rx='10' fill='url(%23bg)'/><path d='M20 35 L60 65 L100 35' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' opacity='0.7'/><path d='M20 90 L50 62' stroke='%23ffffff' stroke-width='2' opacity='0.3'/><path d='M100 90 L70 62' stroke='%23ffffff' stroke-width='2' opacity='0.3'/><path d='M60 62 C60 62 48 52 48 44 C48 38 53 35 58 37 C60 38 60 40 60 40 C60 40 60 38 62 37 C67 35 72 38 72 44 C72 52 60 62 60 62 Z' fill='url(%23gold)'/></svg>" alt="Imagen regalo/carta" class="letter-icon-img" />
+      <p class="quote-text" style="margin-bottom: 20px;">Te hice un detalle, quieres ver?</p>
+      <button class="btn" id="btn-open-letter">Ver</button>
+    </div>
+
+    <div class="triptych-panel">
+      <div class="moon-wrapper">
+        <img src="https://static.theskylive.com/website/images/moon_full_disk_1024.webp" alt="Luna 7 de Septiembre" class="moon-img" />
+      </div>
+      <p class="quote-text">La luna en el dia que nos conocimos..</p>
+    </div>
+
+  </div>
+
+  <div id="modal-letter" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h1 class="letter-title">To my beloved Ana</h1>
+      <div class="letter-body">
+"21 de Septiembre de 2026. - Ana, el día de hoy es muy especial para mí, porque desde que te conocí, todo ha comenzado a florecer de una manera muy linda. Quiero que este día este marcado en nosotros dos, que lo recuerdes para siempre. 
+Has cambiado mi vida para bien, desde que llegaste a ella, todo es más bonito, te agradezco por ser como eres, aunque ya lo haya repetido muchas veces, pero es que no me canso de decirlo. Cada momento que hasta el dia de hoy hemos vivido juntos, han sido lo mejor que me ha pasado, gracias por ser como eres y estar a mi lado, por hacerme sentir especial y amado, por hacerme sonreír y reír, por hacerme sentir que todo es posible.
+Te amo con todo mi corazón, y quiero que sepas que siempre estaré a tu lado, en las buenas y en las malas, en la salud y en la enfermedad, en la riqueza y en la pobreza, hasta que la muerte nos separe. Eres lo mejor que me ha pasado, y quiero que sepas que siempre te amaré y te cuidaré con todo mi amor."
+      </div>
+      <button class="btn" id="btn-close-letter">Cerrar</button>
+    </div>
+  </div>
+
+  <div class="music-widget-wrapper">
+    <div id="lyrics-ticker" class="lyrics-ticker">🎶 Reproduciendo música...</div>
+    <div class="music-player" id="music-player">
+      <img id="track-cover" src="" alt="Portada" class="music-cover" />
+      
+      <div class="music-info">
+        <span id="track-title" class="music-title">Cargando...</span>
+        <span id="track-artist" class="music-artist">Cargando...</span>
+      </div>
+
+      <div class="music-controls">
+        <button class="music-btn" id="btn-play">▶</button>
+      </div>
+
+      <audio id="audio-element"></audio>
+    </div>
+  </div>
+
+  <script>
+    const screenStart = document.getElementById('screen-start');
+    const screenNo = document.getElementById('screen-no');
+    const screenTriptych = document.getElementById('screen-triptych');
+    const modalLetter = document.getElementById('modal-letter');
+
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const btnRetry = document.getElementById('btn-retry');
+    const btnOpenLetter = document.getElementById('btn-open-letter');
+    const btnCloseLetter = document.getElementById('btn-close-letter');
+
+    btnNo.addEventListener('click', () => {
+      screenStart.classList.add('hidden');
+      screenNo.classList.remove('hidden');
+    });
+
+    btnRetry.addEventListener('click', () => {
+      screenNo.classList.add('hidden');
+      screenStart.classList.remove('hidden');
+    });
+
+    btnYes.addEventListener('click', () => {
+      screenStart.classList.add('hidden');
+      screenTriptych.classList.remove('hidden');
+      playTrack();
+    });
+
+    btnOpenLetter.addEventListener('click', () => {
+      modalLetter.classList.remove('hidden');
+    });
+
+    btnCloseLetter.addEventListener('click', () => {
+      modalLetter.classList.add('hidden');
+    });
+
+    /* ==========================================
+       LÓGICA DEL REPRODUCTOR MP3
+       ========================================== */
+    const playlist = [
+      {
+        title: "neo roneo",
+        artist: "rusowsky ft. latin mafia",
+        // COLOCA AQUÍ EL NOMBRE O LA RUTA DE TU ARCHIVO MP3
+        src: "cancion.mp3", 
+        cover: "https://i.scdn.co/image/ab67616d0000b273c868f74d6a33bd27bcee592f",
+        lyrics: [
+          { time: 0, text: " Neo-Roneo " },
+          { time: 21, text: "Si te miro a ti desapareces..." },
+          { time: 27, text: "Nuestro destino, caminos diferentes..." },
+          { time: 42, text: "De tu amor yo no sé..." },
+          { time: 47, text: "De tu amor yo no sé si me recuperaré..." },
+          { time: 56, text: "Y si nos quedamos con to' lo que pasó..." },
+          { time: 60, text: "Y soy un desconocido..." },
+          { time: 70, text: "Ya no sé dónde estamos..." },
+          { time: 75, text: "Que sin tu amor, baby, me desaparezco..." },
+          { time: 84, text: "Sin tu amor, baby, soy igual al resto..." },
+          { time: 90, text: "Para siempre... quererte hasta que duela..." },
+          { time: 103, text: "No me sirve la mente, siempre sirvo pa' quererte..." }
+        ]
+      }
+    ];
+
+    let currentTrackIndex = 0;
+    const audioElement = document.getElementById('audio-element');
+    const playerContainer = document.getElementById('music-player');
+    const trackTitle = document.getElementById('track-title');
+    const trackArtist = document.getElementById('track-artist');
+    const trackCover = document.getElementById('track-cover');
+    const btnPlay = document.getElementById('btn-play');
+    const lyricsTicker = document.getElementById('lyrics-ticker');
+
+    function loadTrack(index) {
+      const track = playlist[index];
+      trackTitle.textContent = track.title;
+      trackArtist.textContent = track.artist;
+      trackCover.src = track.cover;
+      audioElement.src = track.src;
+      lyricsTicker.textContent = `🎶 ${track.artist} - ${track.title} 🎶`;
+    }
+
+    function playTrack() {
+      audioElement.play().then(() => {
+        playerContainer.classList.add('playing');
+        btnPlay.textContent = '⏸';
+      }).catch(e => {
+        console.log("Error al reproducir audio:", e);
+      });
+    }
+
+    function pauseTrack() {
+      audioElement.pause();
+      playerContainer.classList.remove('playing');
+      btnPlay.textContent = '▶';
+    }
+
+    btnPlay.addEventListener('click', () => {
+      if (audioElement.paused) {
+        playTrack();
+      } else {
+        pauseTrack();
+      }
+    });
+
+    audioElement.addEventListener('timeupdate', () => {
+      const currentTime = audioElement.currentTime;
+      const currentLyrics = playlist[currentTrackIndex].lyrics;
+      
+      let activeLyric = "";
+      for (let i = 0; i < currentLyrics.length; i++) {
+        if (currentTime >= currentLyrics[i].time) {
+          activeLyric = currentLyrics[i].text;
+        }
+      }
+      
+      if (activeLyric) {
+        lyricsTicker.textContent = activeLyric;
+        lyricsTicker.classList.add('visible');
+      }
+    });
+
+    loadTrack(currentTrackIndex);
+  </script>
+</body>
+</html>
